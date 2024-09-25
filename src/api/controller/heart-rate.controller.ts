@@ -5,7 +5,7 @@ import { HeartRateAggregatedOutput, HeartRateDataInput } from "../../types";
 export const getProcessedData = (request: Request, response: Response): Response => {
     const body = request.body;
     const inputHeartData: HeartRateDataInput[] | undefined = body?.clinical_data?.HEART_RATE?.data;
-    console.log("inputHeartData", inputHeartData)
+
     let data: HeartRateAggregatedOutput[] = []
     if (inputHeartData) {
         data = processData(inputHeartData, 15);

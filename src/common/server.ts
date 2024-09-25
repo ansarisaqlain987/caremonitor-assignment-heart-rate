@@ -11,7 +11,7 @@ export default class ExpressServer {
     private routes!: ((app: Application) => void);
     constructor() {
         const root = path.normalize(__dirname + '/../..');
-        app.use(express.json({ limit: process.env.REQUEST_LIMIT || '200kb' }));
+        app.use(express.json({ limit: process.env.REQUEST_LIMIT || '100kb' }));
         app.use(
             express.urlencoded({
                 extended: true,
