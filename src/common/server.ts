@@ -4,6 +4,8 @@ import http from 'http';
 import os from 'os';
 import l from './logger';
 import errorHandler from '../api/middlewares/error.handler';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerDocument } from './swagger';
 
 const app = express();
 
@@ -20,6 +22,7 @@ export default class ExpressServer {
         );
         app.use(express.text({ limit: process.env.REQUEST_LIMIT || '100kb' }));
         app.use(express.static(`${root}/public`));
+        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     }
 
     router(routes: (app: Application) => void): ExpressServer {
