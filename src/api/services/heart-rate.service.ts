@@ -86,7 +86,7 @@ export const insertDataInDB = async (data: RequestBodyType): Promise<void> => {
         const t_data = clinicalData[mtype];
         await selectOrInsertMeasurementTypes(mtype, t_data.name, t_data.uom)
         if (t_data.data && t_data.data?.length > 0) {
-            const insertData = t_data.data.map((dt) => {
+            const insertData = t_data.data.map((dt: { measurement: any; on_date: string | number | Date; }) => {
                 return {
                     patientId,
                     measurementTag: mtype,
