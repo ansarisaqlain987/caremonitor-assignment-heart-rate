@@ -26,6 +26,8 @@
   },
   "scripts": {
     "dev": "nodemon src/app.ts --exec ts-node",
+    "build": "npx tsc",
+    "start": "node dist/app.js",
     "migrate:gen": "npx drizzle-kit generate",
     "migrate:run": "ts-node src/db/migrate.ts"
   }
