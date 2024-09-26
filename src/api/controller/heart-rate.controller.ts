@@ -30,3 +30,7 @@ export const getProcessedData = async (request: Request, response: Response): Pr
     }
     return response
 }
+
+export const home = (_: Request, response: Response): Response => {
+    return response.send('CareMonitor Assignment');
+}
