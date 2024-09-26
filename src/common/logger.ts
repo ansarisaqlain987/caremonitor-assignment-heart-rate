@@ -1,5 +1,5 @@
 import pino from 'pino';
 
-const l = pino();
+const logger = pino();
 
-export default l;
+export default logger;

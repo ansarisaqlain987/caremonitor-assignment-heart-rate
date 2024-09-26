@@ -1,5 +1,5 @@
 {
-  "id": "547c54e5-decd-4b6c-9e69-ee4d5866a24f",
+  "id": "0079560e-f51c-4743-8cd4-24aa04a6cfaa",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -8,9 +8,9 @@
       "name": "measurement_types",
       "schema": "",
       "columns": {
-        "measurement_type_id": {
-          "name": "measurement_type_id",
-          "type": "serial",
+        "tag": {
+          "name": "tag",
+          "type": "varchar(25)",
           "primaryKey": true,
           "notNull": true
         },
@@ -52,21 +52,15 @@
       "name": "measurements",
       "schema": "",
       "columns": {
-        "measurement_id": {
-          "name": "measurement_id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
         "patient_id": {
           "name": "patient_id",
-          "type": "uuid",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "measurement_type_id": {
-          "name": "measurement_type_id",
-          "type": "integer",
+        "measurement_tag": {
+          "name": "measurement_tag",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
@@ -121,21 +115,30 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "measurements_measurement_type_id_measurement_types_measurement_type_id_fk": {
-          "name": "measurements_measurement_type_id_measurement_types_measurement_type_id_fk",
+        "measurements_measurement_tag_measurement_types_tag_fk": {
+          "name": "measurements_measurement_tag_measurement_types_tag_fk",
           "tableFrom": "measurements",
           "tableTo": "measurement_types",
           "columnsFrom": [
-            "measurement_type_id"
+            "measurement_tag"
           ],
           "columnsTo": [
-            "measurement_type_id"
+            "tag"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "measurements_patient_id_measurement_tag_measured_at_pk": {
+          "name": "measurements_patient_id_measurement_tag_measured_at_pk",
+          "columns": [
+            "patient_id",
+            "measurement_tag",
+            "measured_at"
+          ]
+        }
+      },
       "uniqueConstraints": {}
     },
     "public.patients": {
@@ -144,13 +147,13 @@
       "columns": {
         "patient_id": {
           "name": "patient_id",
-          "type": "uuid",
+          "type": "varchar",
           "primaryKey": true,
           "notNull": true
         },
         "org_id": {
           "name": "org_id",
-          "type": "uuid",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },

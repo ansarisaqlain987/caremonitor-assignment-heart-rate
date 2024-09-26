@@ -1,21 +1,21 @@
 CREATE TABLE IF NOT EXISTS "measurement_types" (
-	"measurement_type_id" serial PRIMARY KEY NOT NULL,
+	"tag" varchar(25) PRIMARY KEY NOT NULL,
 	"name" varchar(50) NOT NULL,
 	"uom" varchar(20)
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "measurements" (
-	"measurement_id" serial PRIMARY KEY NOT NULL,
-	"patient_id" uuid,
-	"measurement_type_id" integer,
+	"patient_id" varchar,
+	"measurement_tag" varchar,
 	"measurement_value" numeric,
 	"measured_at" timestamp with time zone,
-	"created_at" timestamp with time zone DEFAULT now()
+	"created_at" timestamp with time zone DEFAULT now(),
+	CONSTRAINT "measurements_patient_id_measurement_tag_measured_at_pk" PRIMARY KEY("patient_id","measurement_tag","measured_at")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "patients" (
-	"patient_id" uuid PRIMARY KEY NOT NULL,
-	"org_id" uuid,
+	"patient_id" varchar PRIMARY KEY NOT NULL,
+	"org_id" varchar,
 	"created_at" timestamp with time zone DEFAULT now(),
 	"from_healthkit_sync" boolean DEFAULT false
 );
@@ -27,7 +27,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "measurements" ADD CONSTRAINT "measurements_measurement_type_id_measurement_types_measurement_type_id_fk" FOREIGN KEY ("measurement_type_id") REFERENCES "public"."measurement_types"("measurement_type_id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "measurements" ADD CONSTRAINT "measurements_measurement_tag_measurement_types_tag_fk" FOREIGN KEY ("measurement_tag") REFERENCES "public"."measurement_types"("tag") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

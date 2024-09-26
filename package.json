@@ -10,6 +10,7 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.33.0",
+    "drizzle-zod": "^0.5.1",
     "express": "^4.21.0",
     "pino": "^9.4.0",
     "postgres": "^3.4.4"
@@ -23,6 +24,8 @@
     "typescript": "^5.6.2"
   },
   "scripts": {
-    "dev": "nodemon src/app.ts --exec ts-node"
+    "dev": "nodemon src/app.ts --exec ts-node",
+    "migrate:gen": "npx drizzle-kit generate",
+    "migrate:run": "ts-node src/db/migrate.ts"
   }
 }
